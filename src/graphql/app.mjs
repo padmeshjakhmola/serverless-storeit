@@ -5,15 +5,14 @@ import express from "express";
 import { typeDefs } from "./schema/schema.mjs";
 import { resolvers } from "./resolvers/resolvers.mjs";
 
-const app = express();
-
 const server = new ApolloServer({
   typeDefs,
   resolvers,
 });
 
-await server.start();
+server.startInBackgroundHandlingStartupErrorsByLoggingAndFailingAllRequests();
+const app = express();
 
 app.use("/graphql", cors(), express.json(), expressMiddleware(server));
 
-export default server;
+export default app;

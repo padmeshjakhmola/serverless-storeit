@@ -1,10 +1,4 @@
-import server from "./src/graphql/app.mjs";
-import {
-  startServerAndCreateLambdaHandler,
-  handlers,
-} from "@as-integrations/aws-lambda";
+import app from "./src/graphql/app.mjs";
+import serverlessExpress from "@codegenie/serverless-express";
 
-export const graphqlHandler = startServerAndCreateLambdaHandler(
-  server,
-  handlers.createAPIGatewayProxyEventV2RequestHandler()
-);
+export const graphqlHandler = serverlessExpress({ app });
