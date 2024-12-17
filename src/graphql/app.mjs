@@ -13,6 +13,11 @@ const server = new ApolloServer({
 server.startInBackgroundHandlingStartupErrorsByLoggingAndFailingAllRequests();
 const app = express();
 
+// For health check
+app.use("/health", (req, res) => {
+  return res.status(200).json({ message: "Server is working 💪🏻" });
+});
+
 app.use("/graphql", cors(), express.json(), expressMiddleware(server));
 
 export default app;
