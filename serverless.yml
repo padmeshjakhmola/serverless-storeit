@@ -10,7 +10,7 @@ provider:
   runtime: nodejs20.x
   region: ap-south-1
   environment:
-    NODE_ENV: ${env:STAGE, "prod"}
+    STAGE: ${env:STAGE, "prod"}
 
 functions:
   graphql:

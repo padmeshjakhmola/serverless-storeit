@@ -1,3 +1,6 @@
+import secrets from "../../../lib/secrets.js";
+import { getDbClient } from "../../db/client.js";
+
 const books = [
   {
     title: "The Awakening",
@@ -11,41 +14,36 @@ const books = [
   },
 ];
 
+let cacheResponse = null;
+
 export const resolvers = {
-  Todo: {
-    user: async (todo) => {
-      const response = await fetch(
-        `https://jsonplaceholder.typicode.com/users/${todo.userId}`
-      );
-      const result = await response.json();
-      return result;
-    },
-  },
   Query: {
-    books: () => books,
-    users: async () => {
-      const response = await fetch(
-        "https://jsonplaceholder.typicode.com/users"
-      );
-      return response.json();
-    },
-    todos: async () => {
-      const response = await fetch(
-        "https://jsonplaceholder.typicode.com/todos"
-      );
-      return response.json();
-    },
-    getUser: async (parent, { id }) => {
-      const single_user = await fetch(
-        `https://jsonplaceholder.typicode.com/users/${id}`
-      );
-      return single_user.json();
-    },
-    getTodo: async (parent, { id }) => {
-      const response = await fetch(
-        `https://jsonplaceholder.typicode.com/todos/${id}`
-      );
-      return response.json();
+    getDbUrl: async () => {
+      if (cacheResponse) {
+        return cacheResponse;
+      }
+      const dbUrl = await secrets.getDatabaseUrl();
+
+      if (dbUrl) {
+        const sql = await getDbClient();
+        const dbUrlResult = await sql`select now()`;
+
+        // return {
+        //   message: "Hello from root!",
+        //   dburl: dbUrl,
+        //   neonResponse: dbUrlResult,
+        // };
+
+        cacheResponse = {
+          message: "Hello from root!",
+          dburl: dbUrl,
+          neonResponse: dbUrlResult,
+        };
+
+        return cacheResponse;
+      } else {
+        throw new Error("DB url not available");
+      }
     },
   },
 };
