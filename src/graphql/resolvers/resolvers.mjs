@@ -1,5 +1,6 @@
 import secrets from "../../../lib/secrets.js";
 import { getDbClient } from "../../db/client.js";
+import crud from "../../db/crud.js";
 
 const books = [
   {
@@ -43,6 +44,20 @@ export const resolvers = {
         return cacheResponse;
       } else {
         throw new Error("DB url not available");
+      }
+    },
+    getUsers: async () => {
+      const all_users = await crud.getUser();
+      return all_users;
+    },
+  },
+  Mutation: {
+    addUser: async (_, { name, email }) => {
+      try {
+        const newUser = await crud.addUser(name, email);
+        return newUser;
+      } catch (error) {
+        console.error("error_adding_user", error);
       }
     },
   },
