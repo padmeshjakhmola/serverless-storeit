@@ -60,5 +60,15 @@ export const resolvers = {
         console.error("error_adding_user", error);
       }
     },
+
+    checkUser: async (_, { email }) => {
+      try {
+        const user = await crud.checkUser(email);
+        return !!user;
+      } catch (error) {
+        console.error("error_fetching_user", error);
+        throw error;
+      }
+    },
   },
 };
