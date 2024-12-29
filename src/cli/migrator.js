@@ -8,6 +8,7 @@ const ws = require("ws");
 
 async function performMigration() {
   const dbUrl = await secrets.getDatabaseUrl();
+  console.log("DATABASE_URL:", dbUrl);
   if (!dbUrl) {
     return;
   }

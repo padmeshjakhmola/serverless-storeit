@@ -14,6 +14,12 @@ export const typeDefs = `#graphql
     id: String!
     name: String!
     email: String!
+    password: String!
+  }
+
+  type loginUser{
+    isPasswordValid: Boolean
+    token: String
   }
 
   type Query {
@@ -22,7 +28,7 @@ export const typeDefs = `#graphql
   }
 
   type Mutation {
-    addUser(name: String, email: String): [User]
-    checkUser(email: String): Boolean
+    addUser(name: String, email: String, password: String): [User]
+    login(email: String, password: String): loginUser
   }
 `;

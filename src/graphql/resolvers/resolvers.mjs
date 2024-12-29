@@ -1,19 +1,8 @@
+import jwt from "jsonwebtoken";
 import secrets from "../../../lib/secrets.js";
 import { getDbClient } from "../../db/client.js";
 import crud from "../../db/crud.js";
-
-const books = [
-  {
-    title: "The Awakening",
-    author: "Kate Chopin",
-    environment: process.env.NODE_ENV,
-  },
-  {
-    title: "City of Glass",
-    author: "Paul Auster",
-    environment: process.env.NODE_ENV,
-  },
-];
+import bcrypt from "bcrypt";
 
 let cacheResponse = null;
 
@@ -52,19 +41,23 @@ export const resolvers = {
     },
   },
   Mutation: {
-    addUser: async (_, { name, email }) => {
+    addUser: async (_, { name, email, password }) => {
       try {
-        const newUser = await crud.addUser(name, email);
+        const hashPassword = await bcrypt.hash(password, 10);
+        const newUser = await crud.addUser(name, email, hashPassword);        
+
         return newUser;
       } catch (error) {
         console.error("error_adding_user", error);
+        throw new Error("Unable to add user");
       }
     },
 
-    checkUser: async (_, { email }) => {
+    login: async (_, { email, password }) => {
       try {
-        const user = await crud.checkUser(email);
-        return !!user;
+        const user = await crud.login(email, password);
+        
+        return user;
       } catch (error) {
         console.error("error_fetching_user", error);
         throw error;

@@ -11,6 +11,7 @@ provider:
   region: ap-south-1
   environment:
     STAGE: ${env:STAGE, "prod"}
+    JWT_SECRET: ${env:JWT_SECRET, "prod"}
   iam:
     role:
       name: serverless-my-ssm-role-storeit-${env:STAGE, "prod"}
