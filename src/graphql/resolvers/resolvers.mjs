@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 import secrets from "../../../lib/secrets.js";
 import { getDbClient } from "../../db/client.js";
 import crud from "../../db/crud.js";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 
 let cacheResponse = null;
 

@@ -19,7 +19,7 @@
     "@aws-sdk/client-ssm": "^3.712.0",
     "@codegenie/serverless-express": "^4.16.0",
     "@neondatabase/serverless": "^0.10.4",
-    "bcrypt": "^5.1.1",
+    "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "drizzle-orm": "^0.38.2",
     "express": "^4.19.2",

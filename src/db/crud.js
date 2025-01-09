@@ -1,7 +1,7 @@
 const client = require("./client");
 const schema = require("./schemas");
 const { desc, eq, and } = require("drizzle-orm");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const UserService = require("../service/user");
 
