@@ -22,13 +22,18 @@ export const typeDefs = `#graphql
     token: String
   }
 
+  type addUser {
+    user: User
+    token: String
+  }
+
   type Query {
     getDbUrl: Response
     getUsers: [User]
   }
 
   type Mutation {
-    addUser(name: String, email: String, password: String): [User]
+    addUser(name: String, email: String, password: String): addUser
     login(email: String, password: String): loginUser
   }
 `;

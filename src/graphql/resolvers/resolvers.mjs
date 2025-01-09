@@ -44,7 +44,7 @@ export const resolvers = {
     addUser: async (_, { name, email, password }) => {
       try {
         const hashPassword = await bcrypt.hash(password, 10);
-        const newUser = await crud.addUser(name, email, hashPassword);        
+        const newUser = await crud.addUser(name, email, hashPassword);
 
         return newUser;
       } catch (error) {
@@ -56,7 +56,6 @@ export const resolvers = {
     login: async (_, { email, password }) => {
       try {
         const user = await crud.login(email, password);
-        
         return user;
       } catch (error) {
         console.error("error_fetching_user", error);

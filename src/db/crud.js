@@ -3,6 +3,7 @@ const schema = require("./schemas");
 const { desc, eq, and } = require("drizzle-orm");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const UserService = require("../service/user");
 
 async function getUser() {
   const db = await client.getDrizzelDbClient();
@@ -20,7 +21,10 @@ async function addUser(name, email, password) {
       password: password,
     })
     .returning();
-  return result;
+  console.log("aaaaaaaaaaaaaaaaaa", result);
+
+  const token = await UserService.signUser(result[0].id);
+  return { user: result[0], token };
 }
 
 async function login(email, password) {
@@ -39,15 +43,12 @@ async function login(email, password) {
   const isPasswordValid = await bcrypt.compare(password, checkUser.password);
 
   if (isPasswordValid) {
-    const token = await jwt.sign(checkUser.id, process.env.JWT_SECRET);
-
+    const token = await UserService.signUser(checkUser.id);
     return {
       isPasswordValid,
       token,
     };
   }
-
-  // return isPasswordValid;
 }
 
 module.exports.getUser = getUser;
