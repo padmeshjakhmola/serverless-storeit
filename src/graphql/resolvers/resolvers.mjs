@@ -18,12 +18,6 @@ export const resolvers = {
         const sql = await getDbClient();
         const dbUrlResult = await sql`select now()`;
 
-        // return {
-        //   message: "Hello from root!",
-        //   dburl: dbUrl,
-        //   neonResponse: dbUrlResult,
-        // };
-
         cacheResponse = {
           message: "Hello from root!",
           dburl: dbUrl,
