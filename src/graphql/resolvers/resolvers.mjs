@@ -35,9 +35,12 @@ export const resolvers = {
         throw new Error("DB url not available");
       }
     },
-    getUsers: async () => {
-      const all_users = await crud.getUser();
-      return all_users;
+    getUsers: async (_, __, context) => {
+      if (context && context.user) {
+        const all_users = await crud.getUser();
+        return all_users;
+      }
+      throw new Error("User not authenticated to perform this action");
     },
   },
   Mutation: {
